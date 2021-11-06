@@ -7,15 +7,17 @@
     <link href="style.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-    <h1>Sorting Visualizer</h1>
-    <p>(because why not)</p>
+    <div>
+        <h1>Sorting Visualizer</h1>
+        <p>(because why not)</p>
+    </div>
     <div id="controls">
         <label>Sorting Algorithm: </label>
         <select name="sortingAlgo" id="sortingAlgoInput">
             <option value="bubble">Bubble</option>
             <option value="insertion">Insertion</option>
             <option value="selection">Selection</option>
-            <!-- <option value="merge">Merge</option> -->
+            <option value="merge">Merge</option>
             <option value="bogo">Bogo</option>
         </select>
         <label>Number of elements: </label>
@@ -25,7 +27,7 @@
         <button id="startBtn">Start</button>
         <button id="randomizeBtn">Randomize</button>
     </div>
-    <canvas id="canvas" width="1100" height="600">Canvas not supported</canvas>
+    <canvas id="canvas" width="1000" height="600">Canvas not supported</canvas>
     <p>View on <a href="https://github.com/vivCoding/sorting_viz" target="_blank">GitHub</a></p>
 </body>
 <script src="src/index.js"></script>

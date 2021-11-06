@@ -112,6 +112,10 @@ startBtn.onclick = () => {
                 console.log("bogo")
                 bogoSort()
                 break
+            case "merge":
+                console.log("merge")
+                mergeSort()
+                break
             default:
                 console.log("bad")
                 break

@@ -71,3 +71,31 @@ async function bogoSort() {
     }
     stopRunning()
 }
+
+async function mergeSort() {
+    array = await recursiveMergeSort(array, 0)
+    drawArray()
+    stopRunning()
+}
+
+async function recursiveMergeSort(arr, vi) {
+    if (arr.length <= 1) {
+        return arr
+    }
+    let mid = Math.floor(arr.length / 2)
+    let left = await recursiveMergeSort(arr.slice(0, mid), vi)
+    let right = await recursiveMergeSort(arr.slice(mid, arr.length), vi + mid)
+
+    let newArray = []
+    while (left.length != 0 || right.length != 0) {
+        if (!running) { stopRunning(); return arr; }
+        if (right.length == 0 || ((left.length != 0 && left[0] < right[0]))) {
+            newArray.push(left.shift())
+        } else newArray.push(right.shift())
+        array[vi + newArray.length - 1] = newArray[newArray.length - 1]
+        drawArray()
+        drawSelected(vi + newArray.length - 1)
+        await runDelay()
+    }
+    return newArray
+}
