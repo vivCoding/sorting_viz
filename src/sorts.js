@@ -1,14 +1,14 @@
 async function bubbleSort() {
-    while (true) {
+    for (let i = 1; i < numberOfElements; i++) {
         let sorted = true
-        for (let i = 0; i < numberOfElements - 1; i++) {
+        for (let j = 0; j < numberOfElements - i; j++) {
             if (!running) { stopRunning(); return; }
-            if (array[i] > array[i + 1]) {
+            if (array[j] > array[j + 1]) {
                 sorted = false
-                swap(i, i + 1)
+                swap(j, j + 1)
             }
             drawArray()
-            drawSelected(i)
+            drawSelected(j)
             await sleep()
         }
         if (sorted) break
