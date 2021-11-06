@@ -63,7 +63,7 @@ function drawArray() {
     }
 }
 
-async function runDelay() {
+async function sleep() {
     return new Promise(resolve => {
         setTimeout(() => resolve(2), delay)
     })
@@ -115,6 +115,14 @@ startBtn.onclick = () => {
             case "merge":
                 console.log("merge")
                 mergeSort()
+                break
+            case "heap":
+                console.log("heap")
+                heapSort()
+                break
+            case "shell":
+                console.log("shell")
+                shellSort()
                 break
             default:
                 console.log("bad")

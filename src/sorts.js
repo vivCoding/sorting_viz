@@ -9,7 +9,7 @@ async function bubbleSort() {
             }
             drawArray()
             drawSelected(i)
-            await runDelay()
+            await sleep()
         }
         if (sorted) break
     }
@@ -25,7 +25,7 @@ async function insertionSort() {
             if (array[j] < array[j - 1]) {
                 swap(j, j - 1)
             } else break
-            await runDelay()
+            await sleep()
         }
     }
     stopRunning()
@@ -40,7 +40,7 @@ async function selectionSort() {
             if (array[j] < array[min]) {
                 min = j
             }
-            await runDelay()
+            await sleep()
         }
         swap(i, min)
         drawArray()
@@ -57,7 +57,7 @@ async function bogoSort() {
             swap(r, r2)
             drawArray()
             drawSelected(r)
-            await runDelay()
+            await sleep()
         }
         let sorted = true
         for (let i = 0; i < numberOfElements - 1; i++) {
@@ -95,7 +95,82 @@ async function recursiveMergeSort(arr, vi) {
         array[vi + newArray.length - 1] = newArray[newArray.length - 1]
         drawArray()
         drawSelected(vi + newArray.length - 1)
-        await runDelay()
+        await sleep()
     }
     return newArray
+}
+
+async function heapSort() {
+    let heap = []
+    function swap(i, j) {
+        let t = heap[i]
+        heap[i] = heap[j]
+        heap[j] = t
+    }
+    for (let i = 0; i < numberOfElements; i++) {
+        if (!running) { stopRunning(); return; }
+        heap.push(array[i])
+        let index = i
+        let parent = Math.floor((index - 1) / 2)
+        await sleep()
+        while (index != 0 && heap[parent] > heap[index]) {
+            if (!running) { stopRunning(); return; }
+            swap(index, parent)
+            index = parent
+            parent = Math.floor((index - 1) / 2)
+            await sleep()
+        }
+        drawSelected(i)
+    }
+    for (let i = 0; i < numberOfElements; i++) {
+        if (!running) { stopRunning(); return; }
+        array[i] = heap[0]
+        heap[0] = heap.pop()
+        let index = 0
+        await sleep()
+        while (true) {
+            if (!running) { stopRunning(); return; }
+            let left = 2 * index + 1
+            let right = 2 * index + 2
+            let min = right < heap.length ? heap[left] < heap[right] ? left : right : left < heap.length ? left : -1
+            await sleep()
+            if (min != -1 && heap[min] < heap[index]) {
+                swap(min, index)
+                index = min
+            } else break
+        }
+        drawArray()
+        drawSelected(i)
+    }
+    stopRunning()
+}
+
+async function shellSort() {
+    let gaps = [1, 4, 9, 23, 57, 138, 326, 749, 1695, 3785, 8359, 18298, 39744, 835387]
+    let g
+    for (let i = gaps.length - 1; i >= 0; i--) {
+        if (array.length >= gaps[i]) {
+            g = i
+            break
+        }
+    }
+    while (true) {
+        let sorted = true
+        let gap = gaps[g]
+        for (let i = gap; i < numberOfElements; i++) {
+            for (let j = i; j > 0; j -= gap) {
+                if (!running) { stopRunning(); return; }
+                drawArray()
+                drawSelected(j)
+                if (j - gap >= 0 && array[j] < array[j - gap]) {
+                    sorted = false
+                    swap(j, j - gap)
+                } else break
+                await sleep()
+            }
+        }
+        g--
+        if (sorted) break
+    }
+    stopRunning()
 }
