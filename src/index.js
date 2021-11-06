@@ -123,6 +123,9 @@ startBtn.onclick = () => {
             case "shell":
                 console.log("shell")
                 shellSort()
+            case "quick":
+                console.log("quick")
+                quickSort()
                 break
             default:
                 console.log("bad")

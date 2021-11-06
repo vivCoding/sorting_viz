@@ -174,3 +174,27 @@ async function shellSort() {
     }
     stopRunning()
 }
+
+async function quickSort() {
+    await recursiveQuickSort(0, numberOfElements, Math.floor(numberOfElements / 2))
+    stopRunning()
+}
+
+async function recursiveQuickSort(left, right, pivot) {
+    if (!running) { stopRunning(); return; }
+    if (right - left <= 1) return
+    let c = left
+    for (let i = left; i < right; i++) {
+        if (!running) { stopRunning(); return; }
+        if (array[i] < pivot) {
+            swap(c, i)
+            c++
+        }
+        drawArray()
+        drawSelected(i)
+        await sleep()
+    }
+    let m = Math.floor((right - left) / 2) + left
+    await recursiveQuickSort(left, m, Math.floor((m - left) / 2) + left)
+    await recursiveQuickSort(m, right, Math.floor((right - m) / 2) + m)
+}
