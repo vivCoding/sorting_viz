@@ -13,6 +13,13 @@ p {
 a {
     color: cyan;
     font-weight: bold;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+a:hover {
+    transition: 0.2s;
+    opacity: 0.5;
 }
 
 body {
@@ -35,6 +42,11 @@ body {
     color: white;
     font-weight: bold;
     transition: 0.2s;
+    box-shadow: 2px 3px 10px black;
+}
+
+#controls #startBtn {
+    background-color: green;
 }
 
 #controls button:hover {

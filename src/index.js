@@ -20,6 +20,7 @@ var randomizeBtn = document.getElementById("randomizeBtn")
 var startBtn = document.getElementById("startBtn")
 
 var array = []
+let lastArray = array  // for smarter rerendering
 var delay = parseFloat(delayInput.value)
 var numberOfElements = parseInt(numberOfElementsInput.value)
 var barColor = "white"
@@ -44,6 +45,8 @@ function swap(i, j) {
 
 function drawBar(index, value, color=barColor) {
     ctx.beginPath()
+    ctx.fillStyle = backgroundColor
+    ctx.fillRect(width / numberOfElements * index, height, width / numberOfElements, -height)
     ctx.fillStyle = color
     ctx.fillRect(width / numberOfElements * index, height, width / numberOfElements, height / numberOfElements * (value + 1) * -1)
     ctx.closePath()
@@ -56,11 +59,19 @@ function drawSelected(index) {
     lastSelected = index
 }
 
-function drawArray() {
+function resetArray() {
     clearCanvas()
+    lastArray = []
+}
+
+function drawArray() {
     for (let i = 0; i < numberOfElements; i++) {
-        drawBar(i, array[i])
+        if (lastArray[i] != array[i]) {
+            drawBar(i, array[i])
+            lastArray[i] = array[i]
+        }
     }
+    drawBar(lastSelected, array[lastSelected])
 }
 
 async function sleep() {
@@ -77,7 +88,8 @@ numberOfElementsInput.onchange = e => {
     let n = parseInt(e.target.value)
     if (n != null && numberOfElements != n) {
         numberOfElements = n
-        randomizeArray();
+        resetArray()
+        randomizeArray()
     }
 }
 
@@ -97,38 +109,30 @@ startBtn.onclick = () => {
         startBtn.style.backgroundColor = "darkred"
         switch(sortingAlgoInput.value) {
             case "bubble":
-                console.log("bubble")
                 bubbleSort()
                 break
             case "insertion":
-                console.log("insertion")
                 insertionSort()
                 break
             case "selection":
-                console.log("selection")
                 selectionSort()
                 break
             case "bogo":
-                console.log("bogo")
                 bogoSort()
                 break
             case "merge":
-                console.log("merge")
                 mergeSort()
                 break
             case "heap":
-                console.log("heap")
                 heapSort()
                 break
             case "shell":
-                console.log("shell")
                 shellSort()
             case "quick":
-                console.log("quick")
                 quickSort()
                 break
             default:
-                console.log("bad")
+                console.log("bad sort")
                 break
         }
     } else {
@@ -139,7 +143,7 @@ startBtn.onclick = () => {
 function stopRunning() {
     console.log("stopping")
     startBtn.textContent= "Start"
-    startBtn.style.backgroundColor = "black"
+    startBtn.style.backgroundColor = "darkgreen"
     running = false
 }
 
