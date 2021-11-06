@@ -1,4 +1,4 @@
-# sorting_viz
+# sorting viz
 i love sorting
 
-https://vivcoding.github.io/sorting_viz/
+[View here](https://vivcoding.github.io/sorting_viz/)
