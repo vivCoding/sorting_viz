@@ -101,47 +101,54 @@ async function recursiveMergeSort(arr, vi) {
 }
 
 async function heapSort() {
-    let heap = []
-    function swap(i, j) {
-        let t = heap[i]
-        heap[i] = heap[j]
-        heap[j] = t
-    }
-    for (let i = 0; i < numberOfElements; i++) {
+    for (let i = numberOfElements - 1; i > 0; i--) {
         if (!running) { stopRunning(); return; }
-        heap.push(array[i])
-        let index = i
-        let parent = Math.floor((index - 1) / 2)
-        await sleep()
-        while (index != 0 && heap[parent] > heap[index]) {
-            if (!running) { stopRunning(); return; }
-            swap(index, parent)
-            index = parent
-            parent = Math.floor((index - 1) / 2)
-            await sleep()
-        }
-        drawSelected(i)
-    }
-    for (let i = 0; i < numberOfElements; i++) {
-        if (!running) { stopRunning(); return; }
-        array[i] = heap[0]
-        heap[0] = heap.pop()
-        let index = 0
-        await sleep()
-        while (true) {
-            if (!running) { stopRunning(); return; }
-            let left = 2 * index + 1
-            let right = 2 * index + 2
-            let min = right < heap.length ? heap[left] < heap[right] ? left : right : left < heap.length ? left : -1
-            await sleep()
-            if (min != -1 && heap[min] < heap[index]) {
-                swap(min, index)
-                index = min
-            } else break
-        }
+        let parent = Math.floor((i - 1) / 2)
+        let left = Math.min(2 * parent + 1, numberOfElements - 1)
+        let right = Math.min(2 * parent + 2, numberOfElements - 1)
         drawArray()
         drawSelected(i)
+        await sleep()
+        if (array[i] > array[parent] && array[i] >= array[left] && array[i] >= array[right]) {
+            swap(i, parent)
+            let index = i
+            while (true) {
+                drawArray()
+                drawSelected(index)
+                await sleep()
+                if (!running) { stopRunning(); return; }
+                left = Math.min(2 * index + 1, numberOfElements - 1)
+                right = Math.min(2 * index + 2, numberOfElements - 1)
+                let max = array[left] > array[right] ? left : right
+                if (array[max] > array[index]) {
+                    swap(max, index)
+                    index = max
+                } else break
+            }
+        }
     }
+    drawArray()
+    for (let i = numberOfElements - 1; i > 0; i--) {
+        swap(i, 0)
+        drawArray()
+        drawSelected(i)
+        await sleep()
+        let index = 0
+        while (true) {
+            if (!running) { stopRunning(); return; }
+            drawArray()
+            drawSelected(index)
+            await sleep()
+            left = 2 * index + 1
+            right = 2 * index + 2
+            let max = right < i ? array[left] > array[right] ? left : right : left < i ? left : -1
+            if (max != -1 && array[max] > array[index]) {
+                swap(max, index)
+                index = max
+            } else break
+        }
+    }
+    drawArray()
     stopRunning()
 }
 

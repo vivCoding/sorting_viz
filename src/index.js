@@ -75,6 +75,7 @@ function drawArray() {
 }
 
 async function sleep() {
+    if (delay == 0) return
     return new Promise(resolve => {
         setTimeout(() => resolve(2), delay)
     })
@@ -83,6 +84,10 @@ async function sleep() {
 //#endregion
 
 //#region html element stuf
+
+sortingAlgoInput.onchange = e => {
+    randomizeArray()
+}
 
 numberOfElementsInput.onchange = e => {
     let n = parseInt(e.target.value)
