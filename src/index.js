@@ -139,6 +139,9 @@ startBtn.onclick = () => {
             case "counting":
                 countingSort()
                 break
+            case "cocktail":
+                cocktailSort()
+                break
             default:
                 console.log("bad sort")
                 break

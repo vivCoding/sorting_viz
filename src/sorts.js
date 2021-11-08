@@ -234,3 +234,39 @@ async function countingSort() {
     }
     stopRunning()
 }
+
+async function cocktailSort() {
+    let x = 0;
+    let y = numberOfElements;
+
+    while (true) {
+        let sorted = true
+        for (let i = x; i < y - 1; i++) {
+            if (!running) { stopRunning(); return; }
+            if (array[i] > array[i + 1]) {
+                sorted = false
+                swap(i, i + 1)
+            }
+            drawArray()
+            drawSelected(i)
+            await sleep()
+        }
+        if (sorted) break
+        sorted = true
+        y--
+        for (let i = y; i > x; i--) {
+            if (!running) { stopRunning(); return; }
+            if (array[i] < array[i - 1]) {
+                sorted = false
+                swap(i, i - 1)
+            }
+            drawArray()
+            drawSelected(i)
+            await sleep()
+        }
+        if (sorted) break
+        x++
+    }
+    drawArray()
+    stopRunning()
+}
