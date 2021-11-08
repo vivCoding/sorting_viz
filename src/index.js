@@ -136,6 +136,9 @@ startBtn.onclick = () => {
             case "quick":
                 quickSort()
                 break
+            case "counting":
+                countingSort()
+                break
             default:
                 console.log("bad sort")
                 break

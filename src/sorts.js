@@ -205,3 +205,32 @@ async function recursiveQuickSort(left, right, pivot) {
     await recursiveQuickSort(left, m, Math.floor((m - left) / 2) + left)
     await recursiveQuickSort(m, right, Math.floor((right - m) / 2) + m)
 }
+
+async function countingSort() {
+    let k = numberOfElements
+    let c = []
+    c.length = k + 1
+    c.fill(0)
+    let a = [...array]
+    for (let i = 0; i < numberOfElements; i++) {
+        if (!running) { stopRunning(); return; }
+        c[a[i]] += 1
+        drawSelected(i)
+        await sleep()
+    }
+    for (let i = 1; i <= k; i++) {
+        if (!running) { stopRunning(); return; }
+        c[i] += c[i - 1]
+        drawSelected(i - 1)
+        await sleep()
+    }
+    for (let i = numberOfElements - 1; i >= 0; i--) {
+        if (!running) { stopRunning(); return; }
+        array[c[a[i]] - 1] = a[i]
+        c[a[i]]--;
+        drawArray()
+        drawSelected(c[a[i]])
+        await sleep()
+    }
+    stopRunning()
+}
